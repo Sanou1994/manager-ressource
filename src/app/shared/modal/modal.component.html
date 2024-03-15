@@ -1,0 +1,39 @@
+<div class="modal-container " id="sharedModal" >  
+  
+        <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+
+        <div class="iq-card-body">
+          <div class="alert text-white bg-{{color}}" role="alert">
+            <div class="iq-alert-icon">
+               <i class="ri-alert-fill"></i>
+            </div>
+            <div class="iq-alert-text">{{body}}
+            </div>
+         </div>
+             
+         <p class="text-primary">{{message}}</p>
+           </div>
+           <div class="iq-card-footer" >
+
+            <div class="row  mr-2" >
+              <div class="col-lg-6" > 
+                <button class="btn btn-primary text-white" (click)="closeMe()" >Fermer</button>
+
+              </div>
+              <div class="col-lg-6" *ngIf="!disableButton"> 
+                <button  class="btn  btn-primary text-white" (click)="confirm()"   >Confirmer</button>
+
+              </div>
+
+
+         
+
+          </div>
+          </div>
+          
+        </div>
+
+        
+     </div>
+
+ 

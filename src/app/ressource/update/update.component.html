@@ -1,0 +1,71 @@
+<div #modal></div>
+<div class="row">
+    <div>
+      <a class="btn btn-lg text-center" [routerLink]="['/ressource/list']"><span><i class="fa fa-arrow-left "></i></span> Retour</a>
+    </div>
+  </div>
+<div class="container-xl">			    
+    <h1 class="app-page-title">Mette à jour la ressource</h1>
+    <form [formGroup]="addRessource" (ngSubmit)="openModal()" class="settings-form">
+    <hr class="mb-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Informations Générales</h3>
+            <div class="section-intro"> Fournir tous les détails sur la ressource </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">
+                
+
+                <div class="app-card-body">
+                    
+                        <div class="mb-3" *ngIf="!ressource.programmable&&!ressource.definitely">
+                            <label for="setting-input-2" class="form-label">Quantité</label>
+                            <input type="number" min="0" (change)="oncheckableCount($event)" class="form-control" id="setting-input-2" [(ngModel)]="ressource.count" formControlName="count" [ngClass]="{ 'is-invalid': (testCount || f['count'].errors) }">
+                            <div *ngIf="f['count'].errors " class="invalid-feedback">
+                                <div *ngIf="f['count'].errors['required']" style="color:red;">La quantité  est obligatoire</div>
+                            </div> 
+                            <div *ngIf="(testCount && !f['count'].errors)" class="invalid-feedback">
+                                <div  style="color:red;">impossible de mettre cette valeur il y'a {{this.ressource.demandCount}} demandes/réservations encours !</div>
+                            </div>  
+                        </div>
+                        <div class="mb-3">
+                            <label for="marque" class="form-label">Caractéristique</label>
+                            <input type="text" min="0" class="form-control" id="marque" formControlName="marque" [(ngModel)]="ressource.marque" [ngClass]="{ 'is-invalid': submitted && f['marque'].errors }">
+                            <div *ngIf="submitted && f['marque'].errors" class="invalid-feedback">
+                                <div *ngIf="f['marque'].errors['required']" style="color:red;">La caractéristique  est obligatoire</div>
+                            </div>  
+                        </div>
+                        <div class="mb-3">
+                            <label for="setting-input-3" class="form-label">Description</label>
+                            <input type="text"  class="form-control" id="setting-input-3" formControlName="description" [(ngModel)]="ressource.description" [ngClass]="{ 'is-invalid': f['description'].errors }" >
+                            <div *ngIf="f['description'].errors" class="invalid-feedback">
+                                <div *ngIf="f['description'].errors['required']" style="color:red;">La description  est obligatoire</div>
+                            </div>  
+                        </div>
+                </div><!--//app-card-body-->
+                
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+    
+    <hr class="my-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Confirmation d'enregistrement</h3>
+            <div class="section-intro">Veuillez vérifier les champs avant d'enregistrer cette ressource</div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">						    
+                <div class="app-card-body">
+                    <div class="mt-3">
+                        <button type="submit" class="btn app-btn-primary" [disabled]="addRessource.invalid || disableButton" >Enregistrer</button>
+                    </div>
+                </div><!--//app-card-body-->						    
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+    </form>
+
+    <hr class="my-4">
+</div><!--//container-fluid-->

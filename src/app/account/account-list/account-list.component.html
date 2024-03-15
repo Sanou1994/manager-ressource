@@ -1,0 +1,136 @@
+<div #modal></div>
+
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+                <h1 class="app-page-title mb-0">Utilisateurs</h1>
+            </div>
+            <div class="col-auto">
+                 <div class="page-utilities">
+                    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                        <div class="col-auto">
+                            
+                            <select class="form-select w-auto text-dark" (change)="changeEvent()" [(ngModel)]="searchPrsnlRoleId">
+                                  <option value="UTILISATEUR">Choisir un rôle</option>
+                                  <option value="ADMINISTRATEUR">ADMINISTRATEUR</option>
+                                  <option value="UTILISATEUR" selected>UTILISATEUR</option>
+                                  
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            
+                            <select class="form-select w-auto text-dark" (change)="changeEvent()" [(ngModel)]="searchPrsnlActive">
+                                  <option selected value="option-1">Choisir un état</option>
+                                  <option value="true" selected>Active</option>
+                                  <option value="false">Désactive</option>
+                                  
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            
+                            <select class="form-select w-auto" text-dark (change)="changeEvent()" [(ngModel)]="searchPrsnlSize">
+                                  <option selected value="20">Taille de liste</option>
+                                  <option *ngFor="let size of sizePage" [value]="size" >{{size}}</option>
+
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button   class="btn app-btn-secondary text-dark "    data-toggle="modal"  data-target=".bd-modal-lg" (click)="newUser()" >Nouveau utilisateur</button> 
+						    
+                            
+                        </div>
+                    </div><!--//row-->
+                </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+        </div><!--//row-->
+       
+       
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                    <tr>
+                                        <th class="cell">Nom </th>
+                                        <th class="cell">Prénom </th>
+                                        <th class="cell">Email </th>
+                                        <th class="cell">Téléphone </th>
+                                        <th class="cell">Etat actuel</th>
+                                        <th class="cell" >Mise à jour login</th>
+                                        <th class="cell" >Changer état </th>
+                                        <th class="cell">Mot de passe</th>
+        
+                                    </tr>
+                                </thead>
+        
+                                <tbody *ngIf="users?.length==0">
+                                   
+                                    <tr>
+                                        <td colspan="7" class="text-center">Aucun enregistrement</td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="users!=null">
+                                   <tr *ngFor="let user of users " > 
+        
+                                        <td class="cell">{{user.firstname}}</td>
+                                        <td class="cell">{{user.lastname}}</td>
+                                        <td class="cell">{{user.email}}</td>
+                                        <td class="cell">{{user.phone}}</td>
+                                       <td class="cell text-{{user.color}}">{{user.enabled}}</td>
+                                        <td class="cell">
+                                            <button   class="btn btn-primary text-white " (click)="chooseToUpdate(user)"   data-toggle="modal"  data-target=".bd-update-modal-lg" ><i class="fa fa-edit"></i>Modifier</button> 
+        
+                                        </td> 
+                                        <td class="cell">
+                                            <button   class="btn btn-{{user.lock}} text-white "  (click)="openModal(user.id)"><i class="fa fa-{{user.icon}}"></i>{{user.lockLabel}}</button>
+        
+                                        </td>                        
+                                                                    
+                                        <td class="cell">
+                                            <button  class="btn btn-primary text-white "  (click)="chooseToUpdatePwd(user)"   data-toggle="modal"  data-target=".bd-update-pwd-modal-lg" ><i class="fa fa-eye"></i>Changer </button>
+        
+                                        </td>                                
+                                    </tr>
+                                </tbody>
+                            </table>                           
+                        </div><!--//table-responsive-->
+                       
+                    </div><!--//app-card-body-->		
+                </div><!--//app-card-->
+                <app-pagination-customer [totalList]="countUser" [size]="pageSize" (page)="getUsersWithPagination($event)"></app-pagination-customer>
+
+                <!--//app-pagination-->
+                
+            </div><!--//tab-pane-->
+            
+            
+        
+        
+        
+    </div><!--//container-fluid-->
+</div><!--//app-content-->
+
+
+
+
+
+<div class="modal fade bd-modal-lg"  tabindex="-1" role="dialog" id="bd-modal-lg" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+           <app-account-create-update [create]="true" (reloadEvent)="reloadEvent()"></app-account-create-update>
+
+      
+ </div>
+
+
+ <div class="modal fade bd-update-modal-lg"  tabindex="-1" role="dialog" id="bd-update-modal-lg" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <app-account-create-update [update]="true" [user]="user" (reloadEvent)="reloadEvent()"></app-account-create-update>
+
+
+</div>
+
+
+<div class="modal fade bd-update-pwd-modal-lg"  tabindex="-1" role="dialog" id="bd-update-pwd-modal-lg" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+<app-account-update-pwd [user]="user" (reloadEvent)="reloadEvent()"></app-account-update-pwd>
+</div>

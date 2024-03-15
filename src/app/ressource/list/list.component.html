@@ -1,0 +1,135 @@
+<div class="container-xl">
+			    
+    <div class="row g-3 mb-4 align-items-center justify-content-between">
+        <div class="col-auto">
+            <h1 class="app-page-title mb-0">Liste des Ressources</h1>
+        </div>
+        <div class="col-auto">
+             <div class="page-utilities">
+                <div class="row g-2 justify-content-start justify-content-md-end align-items-center">                    
+                    <div class="col-auto">
+                       
+                        <select class="form-select w-auto" (change)="onChooseType($event)" >
+                              <option value="1" >Tous </option>
+                              <option *ngFor="let ressource of ressourceTypes" [value]="ressource.id">{{ressource.category}}</option>
+                              
+                        </select>
+                    </div>
+                    <div class="col-auto">						    
+                        <a class="btn app-btn-secondary" href="#">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            Download CSV
+                        </a>
+                    </div>
+                </div><!--//row-->
+            </div><!--//table-utilities-->
+        </div><!--//col-auto-->
+    </div><!--//row-->
+   
+    
+    
+    
+            <div class="app-card app-card-orders-table shadow-sm mb-5">
+                <div class="app-card-body">
+                    <div class="table-responsive">
+                        <table class="table app-table-hover mb-0 text-left">
+                            <thead>
+                                <tr>
+                                    <th class="cell">Catégorie</th>
+                                    <th class="cell">Mode d'acquisition</th>
+                                    <th class="cell">Total Initial</th>
+                                    <th class="cell">Total Restant</th>
+                                    <th class="cell"></th>
+                                    <th class="cell"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="ressourceDatas != null && ressourceDatas?.length != 0">
+                                <tr *ngFor="let ressource of ressourceDatas">
+                                    <td class="cell"><span class="truncate">{{ressource.category}}</span></td>
+                                    <td class="cell" *ngIf="ressource.programmable"><span class="truncate">Réservation</span></td>
+                                    <td class="cell" *ngIf="!ressource.programmable"><span class="truncate">Demande</span></td>
+                                    <td class="cell">{{ressource.count}}</td>
+                                    <td class="cell"><span>{{ressource.currentCount}}</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" [routerLink]="['/ressource/update',ressource.id]">Modifier</a></td>
+                                    <td class="cell">  
+                                        
+                                        <button   class="btn btn-danger text-white " (click)="deleteModal(ressource.id)"   data-toggle="modal"  data-target=".bd-update-modal-lg" >Supprimer</button> 
+                                    </td>
+                                    
+
+                                </tr>                           
+                              
+                            </tbody>
+                            <tbody *ngIf="ressourceDatas == null || ressourceDatas?.length == 0">
+                                <tr >
+                                      <td class="cell text-center" colspan="8">Aucune ressource disponible</td>
+                                          
+                            </tbody>
+                        </table>
+                    </div><!--//table-responsive-->
+                   
+                </div><!--//app-card-body-->		
+            </div><!--//app-card-->
+            <!--//app-pagination
+            <app-pagination-customer [totalList]="count" (page)="onTagChanged($event)"></app-pagination-customer>
+            -->
+      
+            <div class="modal fade bd-modal-delete-lg"  tabindex="-1" role="dialog" id="bd-modal-delete-lg" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+     
+
+  <div class="bs-example"  >
+        
+
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Suppression de ressource</h5>
+          </div>
+          
+          <div class="modal-body ">
+            <div *ngIf="rMessage==='bDelete'" class="alert alert-success">
+              La suppression a  bien reussi
+            </div>
+            <div *ngIf="rMessage==='bError'" class="alert alert-danger">
+              Erreur lors de la mise à jour
+            </div>
+            <div class="row">             
+              
+              
+              <div class="col-md-12 mb-3 text-center">
+                <p >Voulez-vous supprimer cette ressource ?</p>
+                
+              </div> 
+             
+                    
+          </div>
+          
+        </div>
+        
+          <div class="modal-footer">
+            <button class="btn btn-success mr-2"  [disabled]="loading" (click)="delete()" >Oui
+              <span class="spinner-border spinner-border-sm" *ngIf="loading" ></span>
+            </button>
+           
+            <button class="btn btn-secondary" (click)="closeModal()"  data-dismiss="modal" >Non   </button>
+        
+   
+           
+          </div>
+        </div>
+      </div>
+
+
+      
+
+</div>
+
+
+           
+            </div>
+    
+</div><!--//container-fluid-->

@@ -1,0 +1,54 @@
+<div #modal></div>
+<div class="row">
+    <div>
+      <a class="btn btn-lg text-center" [routerLink]="['/ressource/list-type-ressource']"><span><i class="fa fa-arrow-left "></i></span> Retour</a>
+    </div>
+  </div>
+<div class="container-xl">			    
+    <h1 class="app-page-title">Nouvelle Catégorie de Ressource</h1>
+    <form [formGroup]="addRessource" (ngSubmit)="openModal()" class="settings-form">
+    <hr class="mb-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Informations Générales</h3>
+            <div class="section-intro"> Veuillez renseigner le nom de la catégorie de ressource </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">
+                
+
+                <div class="app-card-body">
+                        <div class="mb-3">
+                            <label for="setting-input-2" class="form-label">Catégorie de  ressource</label>
+                            <input type="text" class="form-control" id="setting-input-1" formControlName="type" [ngClass]="{ 'is-invalid': submitted && f['type'].errors }">
+                            <div *ngIf="submitted && f['type'].errors" class="invalid-feedback">
+                                <div *ngIf="f['type'].errors['required']" style="color:red;">La catégorie est obligatoire</div>
+                            </div>  
+                        </div>
+                        
+                </div><!--//app-card-body-->
+                
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->  
+    
+    <hr class="my-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Confirmation d'enregistrement</h3>
+            <div class="section-intro">Veuillez vérifier les champs avant d'enregistrer cette catégorie de ressource</div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">						    
+                <div class="app-card-body">
+                    <div class="mt-3">
+                        <button type="submit" class="btn app-btn-primary" [disabled]="disableButton" >Enregistrer</button>
+                    </div>
+                </div><!--//app-card-body-->						    
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+    </form>
+
+    <hr class="my-4">
+</div><!--//container-fluid-->

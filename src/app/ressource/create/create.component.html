@@ -1,0 +1,113 @@
+<div #modal></div>
+<div class="container-xl">			    
+    <h1 class="app-page-title">Nouvelle Ressource</h1>
+    <form [formGroup]="addRessource" (ngSubmit)="openModal()" class="settings-form">
+    <hr class="mb-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Informations Générales</h3>
+            <div class="section-intro"> Fournir tous les détails sur la ressource </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">
+                
+
+                <div class="app-card-body">
+                        <div class="mb-3">
+                            <label for="setting-input-2" class="form-label">Catégorie de la ressource</label>                           
+                            <select id="category" class="form-control" formControlName="category" [ngClass]="{ 'is-invalid': submitted && f['category'].errors }">
+                                <option *ngFor="let type of typeRessources" [value]="type.id">{{type.type}}</option>
+                             </select>                            
+                            <div *ngIf="submitted && f['category'].errors" class="invalid-feedback">
+                                <div *ngIf="f['category'].errors['required']" style="color:red;">La catégorie est obligatoire</div>
+                            </div>  
+                        </div>                        
+                        <div class="mb-3">
+                            <label for="marque" class="form-label">Caractéristique</label>
+                            <input type="text" min="0" class="form-control" id="marque" formControlName="marque" [ngClass]="{ 'is-invalid': submitted && f['marque'].errors }">
+                            <div *ngIf="submitted && f['marque'].errors" class="invalid-feedback">
+                                <div *ngIf="f['marque'].errors['required']" style="color:red;">La caractéristique  est obligatoire</div>
+                            </div>  
+                        </div>
+                        <div class="mb-3">
+                            <label for="setting-input-2" class="form-label">Quantité</label>
+                            <input type="number" min="0" class="form-control" id="setting-input-2" formControlName="count" [ngClass]="{ 'is-invalid': submitted && f['count'].errors }">
+                            <div *ngIf="submitted && f['count'].errors" class="invalid-feedback">
+                                <div *ngIf="f['count'].errors['required']" style="color:red;">La quantité  est obligatoire</div>
+                            </div>  
+                        </div>
+                        <div class="mb-3">
+                            <label for="setting-input-3" class="form-label">Description</label>
+                            <input type="text"  class="form-control" id="setting-input-3" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f['description'].errors }" >
+                            <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                                <div *ngIf="f['description'].errors['required']" style="color:red;">La description  est obligatoire</div>
+                            </div>  
+                        </div>
+                </div><!--//app-card-body-->
+                
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+    <hr class="my-4">
+    
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Politique de gestion</h3>
+            <div class="section-intro"> Fournir les détails de la politique de gestion du ressource</div>
+        </div>
+
+
+        
+
+
+
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">						    
+                <div class="app-card-body">
+                    
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" (change)="oncheckable($event)" type="checkbox" value="" id="settings-checkbox-1"   formControlName="temporaly"  checked>
+                            <label class="form-check-label" for="settings-checkbox-1">
+                                La demande de la ressource est temporaire ?
+                            </label>
+                        </div><!--//form-check-->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" (change)="oncheckable($event)" value="" id="settings-checkbox-2"   formControlName="programmable" checked>
+                            <label class="form-check-label" for="settings-checkbox-2">
+                                La ressource peut être reservée ?
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <p class="text-danger" for="settings-checkbox-2">
+                                {{message}}
+                            </p>
+                        </div>
+                        
+                </div><!--//app-card-body-->						    
+            </div><!--//app-card-->
+
+
+
+        </div>
+    </div><!--//row-->
+    <hr class="my-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Confirmation d'enregistrement</h3>
+            <div class="section-intro">Veuillez vérifier les champs avant d'enregistrer cette ressource</div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">						    
+                <div class="app-card-body">
+                    <div class="mt-3">
+                        <button type="submit" class="btn app-btn-primary" [disabled]="disableButton" >Enregistrer</button>
+                    </div>
+                </div><!--//app-card-body-->						    
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+    </form>
+
+    <hr class="my-4">
+</div><!--//container-fluid-->

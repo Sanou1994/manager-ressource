@@ -5,7 +5,18 @@
   "projects": {
     "manage-rh-frontend": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true
+        },
+        "@schematics/angular:pipe": {
+          "standalone": true
+        }
+
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -20,22 +31,30 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
+            "assets": [              
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/portal.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/plugins/fontawesome/js/all.min.js",
+              "src/assets/plugins/popper.min.js",
+              "src/assets/plugins/bootstrap/js/bootstrap.min.js",
+              "src/assets/plugins/chart.js/chart.min.js",
+              "src/assets/js/index-charts.js",
+              "src/assets/js/app.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -87,9 +106,14 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           }
         }
       }

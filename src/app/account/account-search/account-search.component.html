@@ -1,0 +1,77 @@
+<div class="iq-card" >
+    <div class="iq-card-header d-flex justify-content-between">
+       <div class="iq-header-title">
+          <h4 class="card-title">Formulaire de recherche</h4>
+       </div>
+    </div>
+    <div class="iq-card-body">
+       <form novalidate method="POST" [formGroup]="searchForm" (ngSubmit)="onRechercheSubmit()">
+          <div class="form-row">
+             <div class="col-md-4 mb-3">
+                <label>Saisir le numéro dossier</label>
+                <input type="text" class="form-control" name="patientIdentifier" formControlName="patientIdentifier">
+ 
+             </div>
+             
+             <div class="col-md-4 mb-3">
+                <label>Saisir le prénom</label>
+                <input type="text" class="form-control" name="firstName" formControlName="firstName">
+ 
+             </div>
+             <div class="col-md-4 mb-3">
+                <label>Saisir le nom</label>
+                <input type="text" class="form-control" name="lastName" formControlName="lastName">
+ 
+             </div>
+ 
+          
+             <div class="col-md-4 mb-3">
+                <label>Saisir la date de naissance</label>
+                <input type="date" class="form-control" formControlName='doB' name='doB'>
+             </div>
+             <div class="col-md-4 mb-3">
+                <label>Saisir le téléphone</label>
+                <input type="text" class="form-control" formControlName='phone' name='phone'
+                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+             </div>
+             
+          
+             <div class="col-md-4 mb-3">
+               <label>Saisir la date de création</label>
+               <input type="date" class="form-control" formControlName="createdDate" name="createdDate">
+            </div>
+ 
+          </div>
+          <br>
+          <div class="form-row">
+             <button class="btn btn-primary btn-lg"> Rechercher </button> &nbsp;&nbsp;
+             <button (click)="annuler()" type="reset" class="btn btn-secondary btn-lg">&nbsp;&nbsp;&nbsp; Annuler
+                &nbsp;&nbsp;&nbsp; </button>
+          </div>
+       </form>
+    </div>
+ </div>
+ 
+
+ <div class="modal fade bd-confirmation-search" tabindex="-1" role="dialog" id="formSearchNotCriteria"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Recherche</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+ 
+             <div class="alert alert-danger">
+                Merci de saisir au moins un critère.
+             </div>
+          </div>
+          <div class="modal-footer">
+             <button class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          </div>
+       </div>
+    </div>
+ </div>

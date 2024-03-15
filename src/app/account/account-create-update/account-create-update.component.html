@@ -1,0 +1,98 @@
+<div #modal></div>
+
+
+  <div class="bs-example"  >
+        
+
+    <form  [formGroup]="addForm"  >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Nouveau utilisateur  </h5>
+            
+          </div>
+    
+          
+          
+          <div class="modal-body ">
+            <div *ngIf="rMessage==='bSave'" class="alert alert-success">
+              L'utilisateur a été bien enregistré
+            </div>
+            <div *ngIf="rMessage==='bUpdate'" class="alert alert-success">
+              La mise à jour de l'utilisateur a  bien reussi
+            </div>
+            <div *ngIf="rMessage==='bError'" class="alert alert-danger">
+              Erreur lors de l'enregistrement
+            </div>
+            <div *ngIf="rMessage==='bDuplicate'" class="alert alert-danger">
+              Le numéro de téléphone ou l'email est déjà utilisé
+            </div>
+            <div class="row">           
+            
+              <div class="col-md-4 ">
+                <label for="validationDefault01">Prénom <span class="text-danger">* </span></label>
+                <input type="text" class="form-control" formControlName='lastname' id='lastname'  name="lastname" [ngClass]="{ 'is-invalid': submitted && f['lastname'].errors }" >
+                <div *ngIf="submitted && f['lastname'].errors" class="invalid-feedback">
+                  <div *ngIf="f['lastname'].errors['required']">le prénom est obligatoire</div>
+              </div>
+               
+            </div>
+            <div class="col-md-4 ">
+                <label for="validationDefault02">Nom <span class="text-danger">* </span></label>
+                <input type="text" class="form-control" formControlName='firstname' id='firstname' name="firstname" [ngClass]="{ 'is-invalid': submitted && f['firstname'].errors }"  >
+                <div *ngIf="submitted && f['firstname'].errors" class="invalid-feedback">
+                  <div *ngIf="f['firstname'].errors['required']">le nom est obligatoire</div>
+              </div>
+            </div>
+            <div class="col-md-4 ">
+              <label for="validationDefault02">Email <span class="text-danger">* </span></label>
+              <input type="text" class="form-control" formControlName='email' id='email' name="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"  >
+              <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors['required']">l'email est obligatoire</div>
+            </div>
+          </div>
+          <div class="col-md-4 ">
+            <label for="validationDefault02">Téléphone <span class="text-danger">* </span></label>
+            <input type="text" class="form-control" formControlName='phone' id='phone' name="phone" [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }"  >
+            <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+              <div *ngIf="f['phone'].errors['required']">le téléphone est obligatoire</div>
+          </div>
+          </div>
+              <div class="col-md-4 ">
+                <label for="role">Choisir le rôle <span style="color: red;">*</span></label>
+                <select   formControlName="role" name="role" class="form-control"   [ngClass]="{ 'is-invalid': submitted && f['role'].errors }" >
+                  <option value="ADMINISTRATEUR">ADMINISTRATEUR</option>
+                  <option value="UTILISATEUR">UTILISATEUR</option>
+               </select>              
+               <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
+                <div *ngIf="f['role'].errors['required']" style="color:red;">Le rôle  est obligatoire</div>
+              </div>
+              </div>              
+             
+                    
+          </div>
+          
+        </div>
+        
+          <div class="modal-footer">
+            <button class="btn btn-success mr-2"*ngIf="create" (click)="openModal()"  [disabled]="addForm.invalid ||  loading "  >Enregistrer
+              <span class="spinner-border spinner-border-sm" *ngIf="loading" ></span>
+            </button>
+            <button class="btn btn-success mr-2" (click)="openModal()" *ngIf="update">Enregistrer
+              <span class="spinner-border spinner-border-sm" *ngIf="loading" ></span>
+            </button>
+            <button   class="btn btn-secondary"    (click)="closeModal()">Fermer   </button>
+
+            
+   
+           
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+      
+
+</div>
+

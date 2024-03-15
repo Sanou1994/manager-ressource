@@ -1,0 +1,22 @@
+
+<nav aria-label="Page navigation example"  class="container-fluid">
+  <ul class="pagination justify-content-center">
+    <li class="page-item ">
+      <a class="page-link" (click)="previous()" >Précédent</a>
+    </li>
+
+    <li class="page-item" *ngFor="let itemList of nbItemPagination"   (click)="onChoose(itemList)" [ngClass]="{'active': itemList == pageA}">     
+      <a class="page-link" *ngIf="itemList < 8" >{{itemList}}</a>   
+   </li>
+  <li class="page-item" *ngIf="nbItemPagination.length  >= 8">
+    <a class="page-link">.........</a>
+  </li>
+  <li class="page-item" [ngClass]="{'active': nbItemPagination.length == pageA}">
+    <a class="page-link" *ngIf="nbItemPagination.length  >= 8" (click)="onChoose(nbItemPagination.length)"  >{{nbItemPagination.length}} </a>
+  </li>
+    <li class="page-item" >
+      <a class="page-link" (click)="next()" >Suivant</a>
+    </li>
+  </ul>
+</nav>
+
