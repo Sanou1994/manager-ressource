@@ -62,6 +62,7 @@ export class AccountServiceService extends CrudGenericService<User>
 
 
     getAllUsers(page:number,size:number,active:boolean,role:string): Observable<ReponseDto> {
+      role=(!!role && role.length !=0) ? role : 'UTILISATEUR'
       return this.http.get<ReponseDto>(this._url+"users/all?size="+size+"&page="+page +"&active="+active+"&role="+role).pipe(
         retry(2)
       );

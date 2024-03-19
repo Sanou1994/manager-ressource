@@ -122,7 +122,11 @@ openModal()
 get f() { return this.addForm.controls; }
 
 
+closeModal()
+{
+  $("#bd-update-pwd-modal-lg").modal('hide');
 
+}
 
 
 

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { TypeRessourceService } from 'src/app/services/type_ressource/type-ressource.service';
 import 'src/app/models/type_ressource'
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-typeressource',
   standalone: true,
@@ -24,6 +24,7 @@ export class TyperessourceComponent {
   sub!: Subscription;
 
   constructor(private formBuilder:FormBuilder ,private modalService: ModalService ,
+    private router:Router,
     private route:ActivatedRoute,
     private typeressourceService:TypeRessourceService) { }
   ngOnChanges(changes: SimpleChanges): void
@@ -102,7 +103,8 @@ export class TyperessourceComponent {
                 {
                   if(b['code'] == 200)
                   {
-                 this.modalService.showMessage(b['message'],true)
+                 
+                    this.router.navigate(['/ressource/type-ressources'])
                   this.addRessource.reset()
                   this.submitted=false
                   }

@@ -5,14 +5,14 @@ import { RessourceService } from 'src/app/services/ressource/ressource.service';
 import { CommonModule, NgClass, NgIf } from '@angular/common';
 import { TypeRessourceService } from 'src/app/services/type_ressource/type-ressource.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import { Router, RouterLink } from '@angular/router';
+declare var $:any
 @Component({
     selector: 'app-create',
     templateUrl: './create.component.html',
     styleUrls: ['./create.component.css'],
     standalone: true,
-    imports: [CommonModule,ReactiveFormsModule, NgClass, NgIf]
+    imports: [CommonModule,ReactiveFormsModule, NgClass, NgIf,RouterLink]
 })
 export class CreateComponent implements OnInit,OnChanges
 {
@@ -24,6 +24,12 @@ export class CreateComponent implements OnInit,OnChanges
   @ViewChild('modal', { read: ViewContainerRef })
   entry!: ViewContainerRef;
   sub!: Subscription;
+  programmable:boolean=false
+  temporaly:boolean=false
+  unprogrammableanduntemporaly:boolean=false
+  readCount:boolean=false
+  count:any
+
 
   constructor(private typeTessourceService:TypeRessourceService, private router:Router,
     private formBuilder:FormBuilder ,private modalService: ModalService ,private ressourceService:RessourceService) { }
@@ -44,6 +50,7 @@ export class CreateComponent implements OnInit,OnChanges
           description:[''],
           count:[, Validators.required],
           temporaly:[false],
+          unprogrammableanduntemporaly:[false],
           programmable:[false]
         });
        
@@ -51,21 +58,48 @@ export class CreateComponent implements OnInit,OnChanges
 
   oncheckable(event:any)
   {
-    if(this.addRessource.value.programmable && !this.addRessource.value.temporaly)
-      {
-         this.message="Pour que la ressource soit reservable , sa demande doit être temporaire !"
-         this.disableButton=true
-      }
-      else 
-      {
-        this.message=""
-        this.disableButton=false
+    switch(event)
+    {
+      case "programmable" :{
+        this.programmable=true
+        this.unprogrammableanduntemporaly=false
+        this.temporaly=false
+        this.readCount=true
+        this.count=1
 
+      } ;break;
+      case "unprogrammableanduntemporaly" :{
+        this.programmable=false
+        this.unprogrammableanduntemporaly=true
+        this.temporaly=false
+        this.readCount=false
+        this.count=null
+
+      } ;break;
+      case "temporaly":{
+        this.programmable=false
+        this.unprogrammableanduntemporaly=false
+        this.temporaly=true
+        this.readCount=false
+        this.count=null
+      } ;break;
+      default:{
+        this.programmable=false
+        this.unprogrammableanduntemporaly=false
+        this.temporaly=false
+        this.readCount=false
+        this.count=null
       }
+
+    }
+    
+      
   }
 
  openModal() 
    {
+   
+   
     this.submitted=true
      if(this.addRessource.valid )
     {
@@ -81,6 +115,11 @@ export class CreateComponent implements OnInit,OnChanges
         {
            if(v == true)
            {
+          
+            this.addRessource.value.programmable=this.programmable
+            this.addRessource.value.unprogrammableanduntemporaly=this.unprogrammableanduntemporaly
+            this.addRessource.value.temporaly=(this.programmable) ? true : this.temporaly
+
              this.ressourceService.create(this.addRessource.value as ressource,'ressources').subscribe(b=>
              {
                if(b['code'] == 200)
@@ -95,7 +134,7 @@ export class CreateComponent implements OnInit,OnChanges
                  this.modalService.showMessage(b['message'],false)
                }
               
-             })
+             }) 
  
            }});
       }

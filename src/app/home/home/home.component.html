@@ -1,7 +1,25 @@
 <div class="app-content pt-3 p-md-3 p-lg-4">
     <div class="container-xl">
-        
-        <h1 class="app-page-title">Accueil</h1>
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+                <h1 class="app-page-title mb-0">Accueil</h1>
+            </div>
+            <div class="col-auto">
+                 <div class="page-utilities">
+                    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">                    
+                        <div class="col-auto">                           
+                            <select class="form-select w-auto" (change)="onChooseType($event)" >
+                                  <option value="1" >Tous </option>
+                                  <option *ngFor="let ressource of typeRessources" [value]="ressource.id">{{ressource.type}}</option>
+                                  
+                            </select>
+                        </div>                        
+                        
+                    </div><!--//row-->
+                </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+        </div><!--//row-->
+       
         
         <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert" *ngIf="ressources.length ==0">
             <div class="inner">

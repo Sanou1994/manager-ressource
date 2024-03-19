@@ -15,7 +15,7 @@ import { TypeRessourceService } from 'src/app/services/type_ressource/type-resso
 export class HomeComponent {
   ressources:ressource[]=[]
   typeRessources:type_ressource[]=[]
-
+  ressourceDatas:ressource[]=[]
   constructor(private ressourceService:RessourceService,private typeTessourceService:TypeRessourceService) { }
 
  
@@ -42,10 +42,11 @@ export class HomeComponent {
               const cate=this.typeRessources.filter(t=>t.id == k.category)
               k.createdOn=k.createdOn*1000
                const consultationGot= k as ressource
+               consultationGot.categoryID=k.category
                consultationGot.category=(!!cate && cate.length !=0)?cate[0].type:"-"
                return consultationGot; 
              })  : []; 
-
+             this.ressourceDatas=this.ressources
 
          
       })
@@ -63,5 +64,21 @@ export class HomeComponent {
       {
         return 0
       }
+}
+
+onChooseType(event: any): void
+  {
+    
+    if(event.target.value == 1)
+    {
+      this.refreshConsultationList()
+    }
+    else 
+    {
+      
+     this.ressources=this.ressourceDatas.filter(t=> t.categoryID ==event.target.value )
+    }
+   
+    
 }
 }

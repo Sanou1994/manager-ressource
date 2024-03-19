@@ -2,6 +2,7 @@ interface ressource
  {
      id:any,
      category:any,
+     categoryID?:any,
      description: string, 
      marque?: string,
      count:number,

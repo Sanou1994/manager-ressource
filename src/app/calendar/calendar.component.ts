@@ -35,7 +35,8 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
   }
 
   events: any[] = [];
-
+  roleUser:any
+  userID:any
   date = DayPilot.Date.today();
 
   contextMenu = new DayPilot.Menu({
@@ -111,7 +112,7 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
   configDay: DayPilot.CalendarConfig = {
     durationBarVisible: false,
     locale:"fr-fr",
-    contextMenu: this.contextMenu,
+    contextMenu:(!!localStorage.getItem('role') && localStorage.getItem('role') == environment.ROLE_ADMINISTATEUR ) ?  this.contextMenu : undefined,
     onTimeRangeSelected: this.onTimeRangeSelected.bind(this),
     onBeforeEventRender: this.onBeforeEventRender.bind(this),
     onEventClick: this.onEventClick.bind(this),
@@ -121,14 +122,14 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
     locale:"fr-fr",
     viewType: "Week",
     durationBarVisible: false,
-    contextMenu: this.contextMenu,
+    contextMenu:(!!localStorage.getItem('role') && localStorage.getItem('role') == environment.ROLE_ADMINISTATEUR ) ?  this.contextMenu: undefined,
     onTimeRangeSelected: this.onTimeRangeSelected.bind(this),
     onBeforeEventRender: this.onBeforeEventRender.bind(this),
     onEventClick: this.onEventClick.bind(this),
   };
 
   configMonth: DayPilot.MonthConfig = {
-    contextMenu: this.contextMenu,
+    contextMenu:(!!localStorage.getItem('role') && localStorage.getItem('role') == environment.ROLE_ADMINISTATEUR ) ?  this.contextMenu: undefined,
     locale:"fr-fr",
     eventBarVisible: false,
     onTimeRangeSelected: this.onTimeRangeSelected.bind(this),
@@ -140,6 +141,8 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
   }
   ngOnInit(): void {
     this.ressourceID=this.route.snapshot.paramMap.get("id")
+    this.userID=localStorage.getItem('id')
+    this.roleUser=localStorage.getItem('role')
   }
 
   ngAfterViewInit(): void {
@@ -154,10 +157,12 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
       if(result['code'] == 200)
       {
         const pailots= result['data'] as planning[]
+
         pailots.forEach(t=>{
-          const pailot={
+           const pailot={
             id:t.id,
             text: t.target,
+            disabled:(((!!this.roleUser && this.roleUser == environment.ROLE_UTILISATEUR && this.userID == t.registerId) || (!!this.roleUser && this.roleUser == environment.ROLE_ADMINISTATEUR)) ? false : true ),
             start: new DayPilot.Date(t.startDate),
             mount:t.mount,
             end:  new DayPilot.Date(t.endDate),
@@ -226,6 +231,8 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
     this.planning.startDate=dateStart.getTime()
     this.planning.target=modal.result
     this.planning.ressourceId=this.ressourceID
+    this.planning.registerId=localStorage.getItem("id")
+
     this.ds.create(this.planning,"plannings").subscribe(result=>
       {
         if(result['code'] == 200)
@@ -265,9 +272,12 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
     ];
 
     const data = args.e.data;
-    const modal = await DayPilot.Modal.form(form, data);   
     const dp = args.control;
     dp.clearSelection();
+     if(data.disabled ==  false)
+    {
+
+        const modal = await DayPilot.Modal.form(form, data);   
 
     if (modal.canceled) {
       return;
@@ -307,7 +317,10 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
              }});
         }
     
-     })
+     }) 
+    }
+    
+
   }
 
   

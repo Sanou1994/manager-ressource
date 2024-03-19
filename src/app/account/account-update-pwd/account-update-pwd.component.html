@@ -3,7 +3,7 @@
   <div class="bs-example"  >
         
 
-    <form  [formGroup]="addForm" (ngSubmit)="openModal()" >
+    <form  [formGroup]="addForm"  >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -40,11 +40,11 @@
         </div>
         
           <div class="modal-footer">
-            <button class="btn btn-success mr-2"  [disabled]="addForm.invalid || pwdState || loading "  >Enregistrer
+            <button class="btn btn-success mr-2" (click)="openModal()"  [disabled]="addForm.invalid || pwdState || loading "  >Enregistrer
               <span class="spinner-border spinner-border-sm" *ngIf="loading" ></span>
             </button>
            
-            <button class="btn btn-secondary"  data-dismiss="modal" >Fermer   </button>
+            <button class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal" >Fermer   </button>
         
    
            

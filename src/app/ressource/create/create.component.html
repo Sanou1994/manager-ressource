@@ -1,16 +1,61 @@
+
+
 <div #modal></div>
+<div class="row">
+    <div>
+      <a class="btn btn-lg text-center" [routerLink]="['/ressource/list']"><span><i class="fa fa-arrow-left "></i></span> Retour</a>
+    </div>
+  </div>
+
 <div class="container-xl">			    
     <h1 class="app-page-title">Nouvelle Ressource</h1>
     <form [formGroup]="addRessource" (ngSubmit)="openModal()" class="settings-form">
     <hr class="mb-4">
     <div class="row g-4 settings-section">
         <div class="col-12 col-md-4">
+            <h3 class="section-title">Politique de gestion</h3>
+            <div class="section-intro"> Fournir les détails de la politique de gestion du ressource</div>
+        </div>     
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">						    
+                <div class="app-card-body">                    
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" (click)="oncheckable('temporaly')"  type="radio" name="ressource"  id="temporaly">
+                            <label class="form-check-label" for="temporaly">
+                                La ressource est reservable par lot? 
+                            </label>
+                        </div><!--//form-check-->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" (click)="oncheckable('programmable')"  name="ressource"  id="programmable">
+                            <label class="form-check-label" for="programmable">
+                                La ressource est reservable par unité ?
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio"  (click)="oncheckable('unprogrammableanduntemporaly')"   name="ressource"  id="unprogrammableanduntemporaly">
+                            <label class="form-check-label" for="unprogrammableanduntemporaly">
+                                La ressource est non retournable ?
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <p class="text-danger" for="settings-checkbox-2">
+                                {{message}}
+                            </p>
+                        </div>
+                        
+                </div><!--//app-card-body-->						    
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+        <hr class="my-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
             <h3 class="section-title">Informations Générales</h3>
             <div class="section-intro"> Fournir tous les détails sur la ressource </div>
         </div>
         <div class="col-12 col-md-8">
-            <div class="app-card app-card-settings shadow-sm p-4">
-                
+            <div class="app-card app-card-settings shadow-sm p-4">              
 
                 <div class="app-card-body">
                         <div class="mb-3">
@@ -31,7 +76,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="setting-input-2" class="form-label">Quantité</label>
-                            <input type="number" min="0" class="form-control" id="setting-input-2" formControlName="count" [ngClass]="{ 'is-invalid': submitted && f['count'].errors }">
+                            <input type="number" min="0" class="form-control" id="setting-input-2" [(ngModel)]="count" formControlName="count" [ngClass]="{ 'is-invalid': submitted && f['count'].errors }" [readOnly]="readCount">
                             <div *ngIf="submitted && f['count'].errors" class="invalid-feedback">
                                 <div *ngIf="f['count'].errors['required']" style="color:red;">La quantité  est obligatoire</div>
                             </div>  
@@ -48,49 +93,8 @@
             </div><!--//app-card-->
         </div>
     </div><!--//row-->
-    <hr class="my-4">
     
-    <div class="row g-4 settings-section">
-        <div class="col-12 col-md-4">
-            <h3 class="section-title">Politique de gestion</h3>
-            <div class="section-intro"> Fournir les détails de la politique de gestion du ressource</div>
-        </div>
-
-
-        
-
-
-
-        <div class="col-12 col-md-8">
-            <div class="app-card app-card-settings shadow-sm p-4">						    
-                <div class="app-card-body">
-                    
-
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" (change)="oncheckable($event)" type="checkbox" value="" id="settings-checkbox-1"   formControlName="temporaly"  checked>
-                            <label class="form-check-label" for="settings-checkbox-1">
-                                La demande de la ressource est temporaire ?
-                            </label>
-                        </div><!--//form-check-->
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" (change)="oncheckable($event)" value="" id="settings-checkbox-2"   formControlName="programmable" checked>
-                            <label class="form-check-label" for="settings-checkbox-2">
-                                La ressource peut être reservée ?
-                            </label>
-                        </div>
-                        <div class="form-check mb-3">
-                            <p class="text-danger" for="settings-checkbox-2">
-                                {{message}}
-                            </p>
-                        </div>
-                        
-                </div><!--//app-card-body-->						    
-            </div><!--//app-card-->
-
-
-
-        </div>
-    </div><!--//row-->
+    
     <hr class="my-4">
     <div class="row g-4 settings-section">
         <div class="col-12 col-md-4">

@@ -23,7 +23,7 @@ export const  routes: Routes = [
           path: 'create-type-ressource/:id', loadComponent: () => import('./typeressource/typeressource.component').then(m => m.TyperessourceComponent) 
         },
         { 
-          path: 'list-type-ressource', loadComponent: () => import('./list-typeressource/list-typeressource.component').then(m => m.ListTyperessourceComponent) 
+          path: 'type-ressources', loadComponent: () => import('./list-typeressource/list-typeressource.component').then(m => m.ListTyperessourceComponent) 
         },
         { 
             path: 'detail/:id', loadComponent: () => import('./detail/detail.component').then(m => m.DetailComponent) 
