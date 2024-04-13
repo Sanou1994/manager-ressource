@@ -37,6 +37,10 @@ export class CreateUntemporalyComponent {
       updatedOn: undefined,
       definitely: false
     }
+    countByGroups:any;
+    countByGroupsCheck:boolean=false;
+    unpaidCheck:boolean=false;
+    mount:number=0;
     @ViewChild('modal', { read: ViewContainerRef })
     entry!: ViewContainerRef;
     sub!: Subscription;
@@ -47,23 +51,41 @@ export class CreateUntemporalyComponent {
     {
       
     }
+   
+
     oncheckCount(event:any)
     {
       this.disableButton=false
       this.counted=false
+      this.countByGroupsCheck=false
         const id=this.route.snapshot.paramMap.get("id")
         if(!!id)
         {
           const countChoose= this.addRessource.value.count 
           const ressource= this.ressources.filter(q=> q.id == id)[0];
+          const countByGroups=(!!ressource.countByGroups)?ressource.countByGroups : 0
           if(countChoose > ressource.currentCount)
           {
             this.disableButton=true
             this.counted=true
            
           }
+          else if(countByGroups != 0 && (countChoose % countByGroups) !=0){
+            this.disableButton=true
+            this.countByGroupsCheck=true
+            this.counted=false
+
+          }
+          else{
+            this.mount=(countChoose/countByGroups)*ressource.mount
+            this.disableButton=false
+            this.countByGroupsCheck=false
+            this.counted=false
+          }
         }
-              
+        else{
+        this.router.navigate(["/auth/login"])
+        }        
 
         
     }
@@ -158,11 +180,15 @@ export class CreateUntemporalyComponent {
     
                  const ressource= this.ressources.filter(q=> q.id == id)[0];
                  this.count=ressource.currentCount
+                 this.unpaidCheck=(!!ressource.unpaid &&ressource.unpaid) ? true :false
+                 this.countByGroups=ressource.countByGroups
                  if(this.count ==0)
                  {
                   this.disableButton=true
                   this.addRessource.disable()
                  }
+
+
                  
                 
           })

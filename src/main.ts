@@ -5,14 +5,20 @@ import { AppComponent } from './app/app.component';
 import { TokenInterceptor } from './app/interceptors/token.interceptor';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/route';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
+import { provideToastr } from 'ngx-toastr';
 
   bootstrapApplication(AppComponent, {
-    providers: [importProvidersFrom(HttpClientModule),{
+    providers: [
+     
+      importProvidersFrom(HttpClientModule),{
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-  },provideRouter(routes)
+  },provideRouter(routes),
+  provideAnimations(), // required animations providers
+  provideToastr() // Toastr providers
 ],
 
   }).catch((err) => console.error(err));

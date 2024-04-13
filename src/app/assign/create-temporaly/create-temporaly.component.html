@@ -18,16 +18,23 @@
                     
                     
                         <div class="mb-3">
-                            <label for="setting-input-2" class="form-label">Quantité</label>
+                            <label for="setting-input-2" class="form-label">Quantité <strong class="text-danger">(la demande se fait par lot de {{countByGroups}} )</strong></label>
                             <input type="number" min="1" class="form-control" id="setting-input-2" (change)="oncheckCount($event)" formControlName="count" [ngClass]="{ 'is-invalid':(submitted && f['count'].errors || counted)  }">
                             <div *ngIf="submitted && f['count'].errors " class="invalid-feedback">
                                 <div *ngIf="f['count'].errors['required']" style="color:red;">La quantité  est obligatoire</div>
                             </div> 
                             <div *ngIf="counted">
                                 <div *ngIf="counted" style="color:red;">La quantité restante  est insuffisante</div>
+                            </div> 
+                            <div *ngIf="countByGroupsCheck">
+                                <div *ngIf="countByGroupsCheck" style="color:red;">La demande se fait par lot de {{countByGroups}}</div>
                             </div>  
                         </div>
-                        
+                        <div class="mb-3">
+                            <label for="mount" class="form-label">Montant</label>
+                            <input type="text"  class="form-control" id="mount" [(ngModel)]="mount" formControlName="mount" readonly>
+                              
+                        </div>
                         <div class="mb-3">
                             <label for="setting-input-3" class="form-label">Description</label>
                             <input type="text"  class="form-control" id="setting-input-3" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f['description'].errors }" >

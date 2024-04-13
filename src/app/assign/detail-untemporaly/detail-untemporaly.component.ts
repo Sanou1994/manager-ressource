@@ -23,6 +23,9 @@ export class DetailUntemporalyComponent {
   definitelies:definitelyDto[]=[]
   typeRessources : type_ressource[]=[]
   ressourceDatas:ressource[]=[]
+  countTotal:Number=0;
+  mountTotal:Number=0;
+
   userRole:any
   constructor(private route :ActivatedRoute,private ressourceService:RessourceService,
     private typeTessourceService:TypeRessourceService,
@@ -61,7 +64,8 @@ export class DetailUntemporalyComponent {
               const consultationGot= k as definitelyDto
                return consultationGot;  
              })  : []; 
-
+             this.countTotal= this.definitelies.map(h=>h.count).reduce((partialSum, a) => Number(partialSum) +Number( a), 0);
+             this.mountTotal= this.definitelies.map(h=>h.mount).reduce((partialSum, a) => Number(partialSum) +Number( a), 0);
 
          
       })

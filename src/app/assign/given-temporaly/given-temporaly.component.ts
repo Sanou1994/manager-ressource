@@ -1,7 +1,7 @@
 import { Component, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule, DatePipe, NgClass, NgIf } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { Subscription, forkJoin } from 'rxjs';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { RessourceService } from 'src/app/services/ressource/ressource.service';
@@ -11,7 +11,7 @@ import { TypeRessourceService } from 'src/app/services/type_ressource/type-resso
 @Component({
   selector: 'app-given-temporaly',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule, NgClass, NgIf],
+  imports: [CommonModule,ReactiveFormsModule, NgClass, NgIf,RouterLink],
   templateUrl: './given-temporaly.component.html',
   styleUrls: ['./given-temporaly.component.css']
 })

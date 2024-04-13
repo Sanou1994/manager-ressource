@@ -21,6 +21,10 @@ export class CreateTemporalyComponent {
     submitted:boolean=false;
     counted:boolean=false;
     count:any;
+    countByGroups:any;
+    countByGroupsCheck:boolean=false;
+    mount:number=0;
+
     disableButton:boolean=false;
     ressources:ressource[]=[]
     ressource:ressource={
@@ -52,16 +56,30 @@ export class CreateTemporalyComponent {
     {
       this.disableButton=false
       this.counted=false
+      this.countByGroupsCheck=false
         const id=this.route.snapshot.paramMap.get("id")
         if(!!id)
         {
           const countChoose= this.addRessource.value.count 
           const ressource= this.ressources.filter(q=> q.id == id)[0];
+          const countByGroups=(!!ressource.countByGroups)?ressource.countByGroups : 0
           if(countChoose > ressource.currentCount)
           {
             this.disableButton=true
             this.counted=true
            
+          }
+          else if(countByGroups != 0 && (countChoose % countByGroups) !=0){
+            this.disableButton=true
+            this.countByGroupsCheck=true
+            this.counted=false
+
+          }
+          else{
+            this.mount=(countChoose/countByGroups)*ressource.mount
+            this.disableButton=false
+            this.countByGroupsCheck=false
+            this.counted=false
           }
         }
         else{
@@ -183,6 +201,7 @@ export class CreateTemporalyComponent {
     
                  const ressource= this.ressources.filter(q=> q.id == id)[0];
                  this.count=ressource.currentCount
+                 this.countByGroups=ressource.countByGroups
                  if(this.count ==0)
                  {
                   this.disableButton=true

@@ -21,23 +21,68 @@
                 <div class="app-card-body">                    
 
                         <div class="form-check mb-3">
-                            <input class="form-check-input" (click)="oncheckable('temporaly')"  type="radio" name="ressource"  id="temporaly">
+                            <input class="form-check-input" (click)="oncheckable('temporaly')"   type="radio" name="ressource"  id="temporaly" #temporaly>
                             <label class="form-check-label" for="temporaly">
                                 La ressource est reservable par lot? 
                             </label>
                         </div><!--//form-check-->
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" (click)="oncheckable('programmable')"  name="ressource"  id="programmable">
+                            <input class="form-check-input" type="radio" (click)="oncheckable('programmable')"   name="ressource"  id="programmable" #programmable>
                             <label class="form-check-label" for="programmable">
                                 La ressource est reservable par unité ?
                             </label>
                         </div>
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio"  (click)="oncheckable('unprogrammableanduntemporaly')"   name="ressource"  id="unprogrammableanduntemporaly">
+                            <input class="form-check-input" type="radio"  (click)="oncheckable('unprogrammableanduntemporaly')"   name="ressource"  id="unprogrammableanduntemporaly" checked #unprogrammableanduntemporaly>
                             <label class="form-check-label" for="unprogrammableanduntemporaly">
                                 La ressource est non retournable ?
                             </label>
                         </div>
+                        <div class="form-check mb-3">
+                            <p class="text-danger" for="settings-checkbox-2">
+                                {{message}}
+                            </p>
+                        </div>
+                        
+                </div><!--//app-card-body-->						    
+            </div><!--//app-card-->
+        </div>
+    </div><!--//row-->
+    <hr class="mb-4">
+    <div class="row g-4 settings-section">
+        <div class="col-12 col-md-4">
+            <h3 class="section-title">Politique de facturation</h3>
+            <div class="section-intro"> Fournir les détails de la politique de facturation de cette ressource</div>
+        </div>     
+        <div class="col-12 col-md-8">
+            <div class="app-card app-card-settings shadow-sm p-4">						    
+                <div class="app-card-body">                    
+                   
+                        <div class="form-check mb-3" *ngIf="!!programmableInput && programmableInput.nativeElement.checked">
+                            <input class="form-check-input"   type="radio" name="paid" (click)="oncheckablePaid()"  id="paidByHours" [checked]="!!programmableInput && programmableInput.nativeElement.checked" #paidByHours>
+                            <label class="form-check-label" for="paidByHours">
+                                La ressource est facturable par heure? 
+                            </label>
+                        </div><!--//form-check-->
+                        <div class="form-check mb-3" *ngIf="!!programmableInput && programmableInput.nativeElement.checked" >
+                            <input class="form-check-input" type="radio" name="paid" (click)="oncheckablePaid()"  id="paidByDays" #paidByDays>
+                            <label class="form-check-label" for="paidByDays">
+                                La ressource est facturable par jour ?
+                            </label>
+                        </div>
+                        <div class="form-check mb-3" *ngIf="((!!temporalyInput && temporalyInput.nativeElement.checked) || (!!unprogrammableanduntemporalyInput && unprogrammableanduntemporalyInput.nativeElement.checked))" >
+                            <input class="form-check-input" type="radio" (click)="oncheckablePaid()"    name="paid"  id="paidByGroups" [checked]="!!temporalyInput && temporalyInput.nativeElement.checked" #paidByGroups>
+                            <label class="form-check-label" for="paidByGroups">
+                                La ressource est facturable par lot ?
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input"   type="radio" name="paid" (click)="oncheckablePaid()"  id="unpaid" [checked]="!!unprogrammableanduntemporalyInput && unprogrammableanduntemporalyInput.nativeElement.checked" #unpaid>
+                            <label class="form-check-label" for="unpaid">
+                                La ressource est non facturable ? 
+                            </label>
+                        </div><!--//form-check-->
+                        
                         <div class="form-check mb-3">
                             <p class="text-danger" for="settings-checkbox-2">
                                 {{message}}
@@ -75,10 +120,24 @@
                             </div>  
                         </div>
                         <div class="mb-3">
-                            <label for="setting-input-2" class="form-label">Quantité</label>
+                            <label for="setting-input-2" class="form-label">Quantité Totale </label>
                             <input type="number" min="0" class="form-control" id="setting-input-2" [(ngModel)]="count" formControlName="count" [ngClass]="{ 'is-invalid': submitted && f['count'].errors }" [readOnly]="readCount">
                             <div *ngIf="submitted && f['count'].errors" class="invalid-feedback">
                                 <div *ngIf="f['count'].errors['required']" style="color:red;">La quantité  est obligatoire</div>
+                            </div>  
+                        </div>
+                        <div class="mb-3"> 
+                            <label for="setting-input-2" class="form-label">Quantité unitaire par lot  </label>
+                            <input type="number" min="0" class="form-control" id="countByGroups" [(ngModel)]="countByGroups" formControlName="countByGroups" id="setting-input-2"
+                            [readOnly]="!readByGroups">
+                            
+                        </div>
+                        <div class="mb-3" >
+                            <label for="setting-input-2" class="form-label">Montant unitaire</label>
+                            <input type="number" min="0" class="form-control" id="setting-input-2" 
+                             formControlName="mount" [ngClass]="{ 'is-invalid': submitted && f['mount'].errors }" [(ngModel)]="mount" [readOnly]="!readUnpaid" >
+                            <div *ngIf="submitted && f['mount'].errors" class="invalid-feedback">
+                                <div *ngIf="f['mount'].errors['required']" style="color:red;">Le montant  est obligatoire</div>
                             </div>  
                         </div>
                         <div class="mb-3">

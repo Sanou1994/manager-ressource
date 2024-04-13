@@ -25,6 +25,9 @@ export class DetailComponent {
     typeRessources : type_ressource[]=[]
     ressourceDatas:ressource[]=[]
     RoleUser:any
+    countTotal: any
+    countGivenTotal:any
+    mountTotal:any
     constructor(private route :ActivatedRoute,private ressourceService:RessourceService,private typeTessourceService:TypeRessourceService,private unavailabilityService:UnavailabilityService) { }
   
    
@@ -84,8 +87,10 @@ export class DetailComponent {
                  return consultationGot;  
                })  : []; 
   
-  
-           
+               this.countTotal= this.unavailabilities.map(h=>h.count).reduce((partialSum, a) => Number(partialSum) +Number( a), 0);
+               this.countGivenTotal= this.unavailabilities.map(h=>h.count_given).reduce((partialSum, a) => Number(partialSum) +Number( a), 0);
+               this.mountTotal= this.unavailabilities.map(h=>h.mount).reduce((partialSum, a) => Number(partialSum) +Number( a), 0);
+
         })
 
       }

@@ -50,6 +50,7 @@
                                 <tr>
                                     <th class="cell">Demandeur </th>
                                     <th class="cell ">Quantité Prise</th>
+                                    <th class="cell ">Montant </th>
                                     <th class="cell ">Date D'enregistrement</th>
                                 </tr>
                             </thead>
@@ -57,11 +58,23 @@
                                 <tr *ngFor="let definitely of definitelies">
                                     <td class="cell  ">{{definitely.taker_fullname}}</td>
                                     <td class="cell ">{{definitely.count}}</td>
+                                    <td class="cell ">{{definitely.mount}}</td>
                                      <td class="cell ">{{definitely.createdOn | date :'dd/MM/yyyy HH:mm:ss   '}}</td>
 
 
                                 </tr>                           
-                                
+                                <tr class="bg-success">
+                                    <td class="cell">TOTAL</td>
+                                    <td class="cell bg-primary text-white">{{countTotal}}</td>
+                                    <td class="cell bg-primary text-white">{{mountTotal}}</td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td  class="cell"></td>
+
+                                </tr>   
                             </tbody>
                             <tbody *ngIf="definitelies == null || definitelies?.length == 0">
                                 <tr >

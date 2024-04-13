@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.2.0",
+    "@angular/animations": "^16.2.12",
     "@angular/cdk": "^16.2.6",
     "@angular/common": "^16.2.0",
     "@angular/compiler": "^16.2.0",
@@ -59,7 +59,9 @@
     "ng-select2": "^1.2.2",
     "ngx-mat-select-search": "^7.0.4",
     "ngx-pagination": "^5.1.0",
+    "ngx-toastr": "^18.0.0",
     "popper.js": "^1.16.1",
+    "primeng": "^17.12.0",
     "rxjs": "~7.8.0",
     "select2": "^4.1.0-rc.0",
     "tslib": "^2.3.0",

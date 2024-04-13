@@ -50,6 +50,7 @@
                                     <th class="cell">Demandeur </th>
                                     <th class="cell ">Quantité</th>
                                     <th class="cell ">Quantité Remise</th>
+                                    <th class="cell ">Montant à payer</th>
                                     <th class="cell ">Etat</th>
                                     <th class="cell ">Date Mise en Possession</th>
                                     <th class="cell ">Date Provisoire Restitution</th>
@@ -64,6 +65,7 @@
                                     <td class="cell  ">{{unavailability.taker_fullname}}</td>
                                     <td class="cell ">{{unavailability.count}}</td>
                                     <td class="cell ">{{unavailability.count_given}}</td>
+                                    <td class="cell ">{{unavailability.mount}}</td>
                                     <td class="cell text-{{unavailability.color}}">{{unavailability.etat}}</td>
                                     <td class="cell ">{{unavailability.date_taken | date :'dd/MM/yyyy  HH : mm '}}</td>
                                     <td class="cell ">{{unavailability.date_given | date :'dd/MM/yyyy  HH : mm '}}</td>
@@ -71,6 +73,19 @@
                                     <td class="cell ">{{unavailability.createdOn | date :'dd/MM/yyyy    '}}</td>
 
                                     <td *ngIf="!unavailability.close" class="cell"><a class="btn-sm app-btn-secondary" [routerLink]="['/assign/temporaly/given',unavailability.id]" *ngIf="!!RoleUser && RoleUser=='ADMINISTRATEUR'">Remettre</a></td>
+
+                                </tr>  
+                                <tr class="bg-success">
+                                    <td class="cell">TOTAL</td>
+                                    <td class="cell bg-primary text-white">{{countTotal}}</td>
+                                    <td class="cell bg-primary text-white">{{countGivenTotal}}</td>
+                                    <td class="cell bg-primary text-white">{{mountTotal}}</td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td class="cell "></td>
+                                    <td  class="cell"></td>
 
                                 </tr>                           
                                 

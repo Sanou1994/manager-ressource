@@ -57,7 +57,6 @@ export class ListComponent {
              consultationGot.definitely=(!k.temporaly && !k.programmable)? true :false
              consultationGot.category=(!!typeressource && typeressource !=null)? typeressource+" ("+k.marque+")" : "-"
              return consultationGot;
-              return consultationGot; 
             })  : []; 
             this.ressourceTypes=this.ressources
             this.ressourceDatas=this.ressources

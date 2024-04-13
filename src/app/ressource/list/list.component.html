@@ -40,6 +40,10 @@
                                 <tr>
                                     <th class="cell">Catégorie</th>
                                     <th class="cell">Mode d'acquisition</th>
+                                    <th class="cell">Prix/heure</th>
+                                    <th class="cell">Prix/jour</th>
+                                    <th class="cell">Prix/lot</th>
+                                    <th class="cell">Quantité/lot</th>
                                     <th class="cell">Total Initial</th>
                                     <th class="cell">Total Restant</th>
                                     <th class="cell"></th>
@@ -52,12 +56,16 @@
                                     <td class="cell"><span class="truncate">{{ressource.category}}</span></td>
                                     <td class="cell" *ngIf="ressource.programmable"><span class="truncate">Réservation</span></td>
                                     <td class="cell" *ngIf="!ressource.programmable"><span class="truncate">Demande</span></td>
+                                    <th class="cell"><span class="truncate">{{ressource.paidByHours ? ressource.mount : 0}}</span></th>
+                                    <th class="cell"><span class="truncate">{{ressource.paidByDays ? ressource.mount : 0}}</span></th>
+                                    <th class="cell"><span class="truncate">{{ressource.paidByGroups ? ressource.mount : 0}}</span></th>
+                                    <th class="cell"><span class="truncate">{{ressource.countByGroups ? ressource.countByGroups : 0}}</span></th>
                                     <td class="cell">{{ressource.count}}</td>
                                     <td class="cell"><span>{{ressource.currentCount}}</span></td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" [routerLink]="['/ressource/update',ressource.id]">Modifier</a></td>
                                     <td class="cell">  
                                         
-                                        <button   class="btn btn-danger text-white " (click)="deleteModal(ressource.id)"   data-toggle="modal"  data-target=".bd-update-modal-lg" >Supprimer</button> 
+                                        <button *ngIf="ressource.count == ressource.currentCount "  class="btn btn-danger text-white " (click)="deleteModal(ressource.id)"   data-toggle="modal"  data-target=".bd-update-modal-lg" >Supprimer</button> 
                                     </td>
                                     
 

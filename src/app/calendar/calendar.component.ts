@@ -219,8 +219,9 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
       
   }
 
-  async onTimeRangeSelected(args: any) {
-    const modal = await DayPilot.Modal.prompt("Créer un évènement :", "");
+  async onTimeRangeSelecteddddd(args: any) {
+    const options = {okText:'Valider',cancelText:'Annuler'}     
+    const modal = await DayPilot.Modal.prompt("Créer un évènement :", "",options);
     const dp = args.control;
     dp.clearSelection();
     if (!modal.result) { return; }
@@ -233,6 +234,82 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
     this.planning.ressourceId=this.ressourceID
     this.planning.registerId=localStorage.getItem("id")
 
+   
+
+
+  }
+
+
+  async onTimeRangeSelected(args: any) {
+
+    const validateTextRequired = (argTexts:any) => {
+      const date =(!!argTexts.value && !!argTexts.value.value)? new Date(argTexts.value.value).getTime() : NaN
+      var value = argTexts.value || "";
+      
+      if (Number.isNaN(date) && value.trim().length === 0) {
+        argTexts.valid = false;
+        argTexts.message = "L'object et les heures sont obligatoires";
+      }
+      else if (!Number.isNaN(date) && !!argTexts.result.end && !!argTexts.result.start) {
+
+        
+        const dateEnd= argTexts.result.end as Date
+        const dateStart= argTexts.result.start as Date  
+        const plans=this.events.filter(res=>{
+        const start=new Date(res.start.value).getTime()
+        const end=new Date(res.end.value).getTime()       
+        const testResult=((dateStart.getTime() <= dateEnd.getTime() && start <= end ) && (
+                                 ( dateStart.getTime() <= start &&  start <= dateEnd.getTime() && dateEnd.getTime()  <= end ) ||
+                                 (start <= dateStart.getTime() && dateStart.getTime() <= end && end <= dateEnd.getTime()) ||                             
+                                 (start <= dateStart.getTime() && dateEnd.getTime() <= end) ||
+                                 ( dateStart.getTime() <= start && end <= dateEnd.getTime())))
+                                 return testResult;}) ;                            
+                                   
+
+      argTexts.valid = (!!plans && plans.length !=0) ? false:true;
+      argTexts.message = "Cette horaire ou une partie est occupée";
+      }
+      
+      
+    }    
+
+    const form = [
+      {name:"Object", id:"text",onValidate: validateTextRequired},
+      {name:"Début", id:"start", dateFormat: "dd/MM/yyyy", type: "datetime",onValidate:  validateTextRequired},
+      {name:"Fin", id:"end", dateFormat: "dd/MM/yyyy", type: "datetime",onValidate: validateTextRequired}
+
+    ];
+
+    const dp = args.control;
+    dp.clearSelection();
+
+    const options = {okText:'Valider',cancelText:'Annuler'}     
+    const modal = await DayPilot.Modal.form(form,{},options);    
+    
+
+    if (modal.canceled) {
+      return;
+    }
+       
+       const dateEnd= modal.result.end as Date
+       const dateStart= modal.result.start as Date      
+       const plans=this.events.filter(res=>{
+       const start=new Date(res.start.value).getTime()
+       const end=new Date(res.end.value).getTime()       
+       const testResult=((dateStart.getTime() <= dateEnd.getTime() && start <= end ) && (
+                                ( dateStart.getTime() <= start &&  start <= dateEnd.getTime() && dateEnd.getTime()  <= end ) ||
+                                (start <= dateStart.getTime() && dateStart.getTime() <= end && end <= dateEnd.getTime()) ||                             
+                                (start <= dateStart.getTime() && dateEnd.getTime() <= end) ||
+                                ( dateStart.getTime() <= start && end <= dateEnd.getTime())))
+                                return testResult;}) ;     
+    if(plans.length ==0)
+    {   
+   
+    this.planning.endDate=dateEnd.getTime()
+    this.planning.startDate=dateStart.getTime()
+    this.planning.target=modal.result.text
+    this.planning.mount=modal.result.mount
+    this.planning.ressourceId=this.ressourceID
     this.ds.create(this.planning,"plannings").subscribe(result=>
       {
         if(result['code'] == 200)
@@ -258,39 +335,94 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
 
     })
 
+    } 
+
+    
+    
 
   }
 
+
+
   async onEventClick(args: any) {
+
+    const validateTextRequired = (args:any) => {
+
+      const date = new Date(args.value.value).getTime()
+      var value = args.value || "";
+      if (Number.isNaN(date) && value.trim().length === 0) {
+        args.valid = false;
+        args.message = "Le titre est obligatoire";
+      }
+      else if (!Number.isNaN(date)) {
+
+        const dateEnd= args.result.end as Date
+        const dateStart= args.result.start as Date      
+        const planningID= args.result.id   
+          
+        const plans=this.events.filter(res=>{
+        const start=new Date(res.start.value).getTime()
+        const end=new Date(res.end.value).getTime()       
+        const testResult=((dateStart.getTime() <= dateEnd.getTime() && start <= end ) && (
+                                 ( dateStart.getTime() <= start &&  start <= dateEnd.getTime() && dateEnd.getTime()  <= end ) ||
+                                 (start <= dateStart.getTime() && dateStart.getTime() <= end && end <= dateEnd.getTime()) ||                             
+                                 (start <= dateStart.getTime() && dateEnd.getTime() <= end) ||
+                                 ( dateStart.getTime() <= start && end <= dateEnd.getTime())))
+                                 return testResult;}) ;     
+      const  test= !!plans && plans.map(g=>g.id).includes(planningID) && plans.length == 1;
+
+      args.valid = test;
+      args.message = "Cette horaire ou une partie est occupée";
+      }
+      
+      
+    }
+
+    
+
     const form = [
-      {name: "Titre", id: "text"},
-      {name: "Début", id: "start", dateFormat: "dd/MM/yyyy", type: "datetime"},
-      {name: "Fin", id: "end", dateFormat: "dd/MM/yyyy", type: "datetime"},
-      {name: "Montant", id: "mount",type:"number"},
+      {name: "Titre", id: "text",onValidate: validateTextRequired},
+      {name: "Début", id: "start", dateFormat: "dd/MM/yyyy", type: "datetime",onValidate:  validateTextRequired},
+      {name: "Fin", id: "end", dateFormat: "dd/MM/yyyy", type: "datetime",onValidate: validateTextRequired}, 
       {name: "Index", id: "id",disabled:true},
 
     ];
-
     const data = args.e.data;
     const dp = args.control;
     dp.clearSelection();
+
      if(data.disabled ==  false)
     {
-
-        const modal = await DayPilot.Modal.form(form, data);   
+     const options = {okText:'Valider',cancelText:'Annuler'}     
+    const modal = await DayPilot.Modal.form(form, data,options);   
 
     if (modal.canceled) {
       return;
     }
-    
-    const dateEnd= modal.result.end as Date
-    const dateStart= modal.result.start as Date
+       
+       const dateEnd= modal.result.end as Date
+       const dateStart= modal.result.start as Date      
+       const planningID= modal.result.id     
+       const plans=this.events.filter(res=>{
+       const start=new Date(res.start.value).getTime()
+       const end=new Date(res.end.value).getTime()       
+       const testResult=((dateStart.getTime() <= dateEnd.getTime() && start <= end ) && (
+                                ( dateStart.getTime() <= start &&  start <= dateEnd.getTime() && dateEnd.getTime()  <= end ) ||
+                                (start <= dateStart.getTime() && dateStart.getTime() <= end && end <= dateEnd.getTime()) ||                             
+                                (start <= dateStart.getTime() && dateEnd.getTime() <= end) ||
+                                ( dateStart.getTime() <= start && end <= dateEnd.getTime())))
+                                return testResult;}) ;     
+     const  test= !!plans && plans.map(g=>g.id).includes(planningID) && plans.length == 1;       
+    if(test)
+    {   
+   
     this.planning.endDate=dateEnd.getTime()
     this.planning.startDate=dateStart.getTime()
     this.planning.target=modal.result.text
     this.planning.mount=modal.result.mount
-     this.planning.id=modal.result.id
-    this.planning.ressourceId=this.ressourceID 
+    this.planning.id=modal.result.id
+    this.planning.ressourceId=this.ressourceID
+
 
 
     this.ds.update(this.planning,"plannings/update").subscribe(result=>
@@ -317,7 +449,9 @@ export class CalendarComponent implements AfterViewInit,OnInit,OnDestroy  {
              }});
         }
     
-     }) 
+     })
+    } 
+
     }
     
 

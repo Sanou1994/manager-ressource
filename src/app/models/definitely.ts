@@ -20,7 +20,7 @@ interface definitely
       mount:number,
       description:string,
       status:boolean,
-      count?:number,
+      count:number,
       date_taken:any,
       taker_fullname?:string,
       takerIdentificant:string,

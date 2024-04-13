@@ -4,13 +4,13 @@ import { forkJoin } from 'rxjs';
 import { RessourceService } from 'src/app/services/ressource/ressource.service';
 import { NgFor, NgIf } from '@angular/common';
 import { TypeRessourceService } from 'src/app/services/type_ressource/type-ressource.service';
-
+import { ToastModule } from 'primeng/toast';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
     standalone: true,
-    imports: [NgFor, NgIf, RouterLink]
+    imports: [NgFor, NgIf, RouterLink,ToastModule]
 })
 export class HomeComponent {
   ressources:ressource[]=[]
