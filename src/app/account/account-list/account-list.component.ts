@@ -61,7 +61,7 @@ pageSize:number=20
 loading = false;
 config:any={};
 privileges:string[]=[]
- searchPrsnlRoleId: string="";
+ searchPrsnlRoleId: string="UTILISATEUR";
  searchPrsnlSize: number=20;
  searchPrsnlActive: boolean=true;
 

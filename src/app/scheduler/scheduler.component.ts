@@ -18,6 +18,7 @@ export class SchedulerComponent implements AfterViewInit {
   events: DayPilot.EventData[] = [];
 
   config: DayPilot.SchedulerConfig = {
+    
     timeHeaders: [
       {groupBy: "Month"},
       {groupBy: "Day", format: "d"}

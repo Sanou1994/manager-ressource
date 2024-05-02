@@ -76,7 +76,11 @@ export class CreateTemporalyComponent {
 
           }
           else{
-            this.mount=(countChoose/countByGroups)*ressource.mount
+
+             const paidable=(!!ressource && ressource.unpaid) ? true :false
+             
+            this.mount=(paidable && countByGroups !=0) ?  (countChoose/countByGroups)*ressource.mount :0
+
             this.disableButton=false
             this.countByGroupsCheck=false
             this.counted=false

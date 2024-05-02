@@ -18,7 +18,7 @@
                     
                     
                         <div class="mb-3">
-                            <label for="setting-input-2" class="form-label">Quantité <strong class="text-danger">(la demande se fait par lot de {{countByGroups}} )</strong></label>
+                            <label for="setting-input-2" class="form-label">Quantité <strong *ngIf="countByGroups !=0" class="text-danger">(la demande se fait par lot de {{countByGroups}} )</strong></label>
                             <input type="number" min="1" class="form-control" id="setting-input-2" (change)="oncheckCount($event)" formControlName="count" [ngClass]="{ 'is-invalid':(submitted && f['count'].errors || counted)  }">
                             <div *ngIf="submitted && f['count'].errors " class="invalid-feedback">
                                 <div *ngIf="f['count'].errors['required']" style="color:red;">La quantité  est obligatoire</div>
