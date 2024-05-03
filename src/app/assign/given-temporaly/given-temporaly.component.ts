@@ -36,7 +36,9 @@ export class GivenTemporalyComponent {
     programmable: false,
     createdOn: undefined,
     updatedOn: undefined,
-    definitely: false
+    definitely: false,
+    hidden: false,
+    countPlannings: 0
   }
   unavailability:unavailability={
     id: undefined,

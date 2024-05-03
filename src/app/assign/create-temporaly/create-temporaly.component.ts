@@ -40,7 +40,9 @@ export class CreateTemporalyComponent {
       programmable: false,
       createdOn: undefined,
       updatedOn: undefined,
-      definitely: false
+      definitely: false,
+      hidden: false,
+      countPlannings: 0
     }
     @ViewChild('modal', { read: ViewContainerRef })
     entry!: ViewContainerRef;

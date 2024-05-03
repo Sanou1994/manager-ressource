@@ -51,7 +51,9 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
     programmable: false,
     definitely: false,
     createdOn: undefined,
-    updatedOn: undefined
+    updatedOn: undefined,
+    hidden: false,
+    countPlannings: 0
   }
   addRessource !: FormGroup
   submitted: boolean = false;
@@ -252,6 +254,7 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
             ressourceID: this.ressourceID,
             backColor: PlanningService.colors.red,
           }
+
           this.events.push(pailot)
         })
 
@@ -403,13 +406,13 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
         const testResult = this.intercept(new Date(res.start.value).getTime(), new Date(res.end.value).getTime(), dateStart.getTime(), dateEnd.getTime())
         return testResult;
       });
-      const samePlanning=plans.filter(res  => 
-        ( new Date(res.end.value).getTime() ==this.planning.endDate 
-        && new Date(res.start.value).getTime() ==this.planning.startDate
-        && res.id ==this.planning.id && this.planning.registerId ==this.userID)).length
+      const samePlanning = plans.filter(res =>
+      (new Date(res.end.value).getTime() == this.planning.endDate
+        && new Date(res.start.value).getTime() == this.planning.startDate
+        && res.id == this.planning.id && this.planning.registerId == this.userID)).length
 
-      this.messageExist = (((!!plans && plans.length >1) || (!!plans && plans.length==1 && samePlanning ==0))) ? "Cette horaire ou une partie est occupée" : "";
-      this.disableButton = (((!!plans && plans.length >1) || (!!plans && plans.length==1 && samePlanning ==0) )) ? true : false
+      this.messageExist = (((!!plans && plans.length > 1) || (!!plans && plans.length == 1 && samePlanning == 0))) ? "Cette horaire ou une partie est occupée" : "";
+      this.disableButton = (((!!plans && plans.length > 1) || (!!plans && plans.length == 1 && samePlanning == 0))) ? true : false
 
 
     }
@@ -444,17 +447,16 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
         });
 
 
-        const samePlanning=plans.filter(res  => 
-          ( new Date(res.end.value).getTime() ==this.planning.endDate 
-          && new Date(res.start.value).getTime() ==this.planning.startDate
-          && res.id ==this.planning.id && this.planning.registerId ==this.userID)).length
-        
-         if ((!!plans && plans.length >1) || (!!plans && plans.length==1 && samePlanning ==0)      ) {
+        const samePlanning = plans.filter(res =>
+        (new Date(res.end.value).getTime() == this.planning.endDate
+          && new Date(res.start.value).getTime() == this.planning.startDate
+          && res.id == this.planning.id && this.planning.registerId == this.userID)).length
+
+        if ((!!plans && plans.length > 1) || (!!plans && plans.length == 1 && samePlanning == 0)) {
           this.messageExist = "Cette horaire ou une partie est occupée";
           this.disableButton = true
         }
-        else
-        {
+        else {
 
           this.planning.endDate = dateEnd.getTime()
           this.planning.startDate = dateStart.getTime()
@@ -464,7 +466,7 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
           this.loading = true
 
           if (!!this.addRessource.value.id && this.addRessource.value.id != null) {
-           
+
             this.planning.id = this.addRessource.value.id
             this.ds.update(this.planning, "plannings/update").subscribe(result => {
 
@@ -487,7 +489,7 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
 
           }
           else {
-            
+
             this.ds.create(this.planning, "plannings").subscribe(result => {
               if (result['code'] == 200) {
                 this.loading = false
@@ -498,7 +500,7 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
 
               }
               else {
-                
+
                 this.loading = false
                 this.submitted = false
                 this.messageExist = "L'enregistrement a échoué";
@@ -534,7 +536,7 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   async onTimeRangeSelected(args: any) {
-    this.planning= {
+    this.planning = {
       startDate: 0,
       endDate: 0,
       ressourceId: undefined,
@@ -543,9 +545,9 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
       updatedOn: 0,
       mount: 0,
       registerId: localStorage.getItem("id")
-  
+
     }
-    this.update=false
+    this.update = false
     this.start = new Date(args.start.value).getTime()
     this.end = new Date(args.end.value).getTime()
     var datePipe = new DatePipe('en-US');
@@ -564,41 +566,47 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
     $("#exampleModal").modal('show')
     const dp = args.control;
     dp.clearSelection();
-    
+
 
 
   }
 
 
   async onEventClick(args: any) {
-    this.update=true
-    this.planning.endDate = new Date(args.e.data.end).getTime()
-    this.planning.startDate = new Date(args.e.data.start).getTime()
-    this.planning.target = args.e.data.text
-    this.planning.mount = args.e.data.mount
-    this.planning.id = args.e.data.id
-    this.planning.ressourceId = args.e.data.ressourceID
-    var datePipe = new DatePipe('en-US');
-    const endTime = datePipe.transform(this.planning.endDate, 'HH:mm');
-    const startTime = datePipe.transform(this.planning.startDate, 'HH:mm');
-    this.showTimeState = (this.ressource.temporaly && this.ressource.paidByHours) ? true : false
-    const endDate = datePipe.transform(this.planning.endDate, 'yyyy-MM-dd');
-    const startDate = datePipe.transform(this.planning.startDate, 'yyyy-MM-dd')
-    this.addRessource.patchValue({
-      id: this.planning.id,
-      endDate: endDate,
-      startDate: startDate,
-      endTime: endTime,
-      startTime: startTime,
-      target: this.planning.target,
-      ressourceId: this.planning.ressourceId,
-      mount: this.planning.mount
-    });
 
-    $("#exampleModal").modal('show')
-    const dp = args.control;
-    this.update = true
-    dp.clearSelection();
+    if (!!args.e.data && !args.e.data.disabled) {
+
+      this.update = true
+      this.planning.endDate = new Date(args.e.data.end).getTime()
+      this.planning.startDate = new Date(args.e.data.start).getTime()
+      this.planning.target = args.e.data.text
+      this.planning.mount = args.e.data.mount
+      this.planning.id = args.e.data.id
+      this.planning.ressourceId = args.e.data.ressourceID
+      var datePipe = new DatePipe('en-US');
+      const endTime = datePipe.transform(this.planning.endDate, 'HH:mm');
+      const startTime = datePipe.transform(this.planning.startDate, 'HH:mm');
+      this.showTimeState = (this.ressource.temporaly && this.ressource.paidByHours) ? true : false
+      const endDate = datePipe.transform(this.planning.endDate, 'yyyy-MM-dd');
+      const startDate = datePipe.transform(this.planning.startDate, 'yyyy-MM-dd')
+      this.addRessource.patchValue({
+        id: this.planning.id,
+        endDate: endDate,
+        startDate: startDate,
+        endTime: endTime,
+        startTime: startTime,
+        target: this.planning.target,
+        ressourceId: this.planning.ressourceId,
+        mount: this.planning.mount
+      });
+
+      $("#exampleModal").modal('show')
+      const dp = args.control;
+      this.update = true
+      dp.clearSelection();
+    }
+
+
 
 
 
@@ -609,7 +617,7 @@ export class CalendarComponent implements AfterViewInit, OnInit, OnDestroy {
     this.messageExist = "";
     this.disableButton = false
     this.addRessource.reset()
-    this.update=false
+    this.update = false
     this.submitted = false;
   }
 

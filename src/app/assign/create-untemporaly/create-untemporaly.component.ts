@@ -35,7 +35,9 @@ export class CreateUntemporalyComponent {
       programmable: false,
       createdOn: undefined,
       updatedOn: undefined,
-      definitely: false
+      definitely: false,
+      hidden: false,
+      countPlannings: 0
     }
     countByGroups:any;
     countByGroupsCheck:boolean=false;

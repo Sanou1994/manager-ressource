@@ -37,7 +37,9 @@ export class UpdateComponent {
     currentCount: 0,
     demandCount: 0,
     mount: 0,
-    definitely: false
+    definitely: false,
+    hidden: false,
+    countPlannings: 0
   }
   typeRessources : type_ressource[]=[]
   disableButton:boolean=false;

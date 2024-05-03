@@ -28,7 +28,9 @@ export class DetailComponent {
     createdOn: undefined,
     updatedOn: undefined,
     mount: 0,
-    definitely: false
+    definitely: false,
+    hidden: false,
+    countPlannings: 0
   }
   constructor(private typeTessourceService:TypeRessourceService,private ressourceService:RessourceService,private route:ActivatedRoute) { }
 

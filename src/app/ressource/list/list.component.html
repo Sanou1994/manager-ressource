@@ -64,8 +64,7 @@
                                     <td class="cell"><span>{{ressource.currentCount}}</span></td>
                                     <td class="cell"><a class="btn-sm app-btn-secondary" [routerLink]="['/ressource/update',ressource.id]">Modifier</a></td>
                                     <td class="cell">  
-                                        
-                                        <button *ngIf="ressource.count == ressource.currentCount "  class="btn btn-danger text-white " (click)="deleteModal(ressource.id)"   data-toggle="modal"  data-target=".bd-update-modal-lg" >Supprimer</button> 
+                                      <button [hidden]="ressource.countPlannings !!=0" *ngIf="(ressource.count == ressource.currentCount) "  class="btn btn-danger text-white " (click)="deleteModal(ressource.id)"   data-toggle="modal"  data-target=".bd-update-modal-lg" >Supprimer</button>  
                                     </td>
                                     
 

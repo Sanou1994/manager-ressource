@@ -14,12 +14,14 @@ interface ressource
      paidByGroups?:boolean;
      countByGroups?:number,
      unpaid?:boolean;
+     hidden:boolean;
      mount:number,
      status:boolean,
      temporaly:boolean,
      programmable:boolean,
      plannings?:planning[],
      definitely:boolean | false,
+     countPlannings:number,
      createdOn:any,
      updatedOn:any
      

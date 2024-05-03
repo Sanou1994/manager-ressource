@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { forkJoin, takeLast } from 'rxjs';
+import { forkJoin, map, takeLast } from 'rxjs';
 import { RessourceService } from 'src/app/services/ressource/ressource.service';
 import { RouterLink } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, CommonModule, NgFor, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TypeRessourceService } from 'src/app/services/type_ressource/type-ressource.service';
+import { PlanningService } from 'src/app/services/planning/planning.service';
 declare var $:any
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.css'],
     standalone: true,
-    imports: [ReactiveFormsModule, NgFor, NgIf, RouterLink]
+    imports: [CommonModule,ReactiveFormsModule, NgFor, NgIf, RouterLink,AsyncPipe]
 })
 export class ListComponent {
   ressources:ressource[]=[]
@@ -24,7 +25,7 @@ export class ListComponent {
   page: number = 1;
   count: number = 0;
   tableSize: number = 10;
-  constructor(private typeRessourceService:TypeRessourceService,private ressourceService:RessourceService) { } 
+  constructor(private ds: PlanningService,private typeRessourceService:TypeRessourceService,private ressourceService:RessourceService) { } 
 
  ngOnInit()
 {
@@ -37,7 +38,8 @@ export class ListComponent {
   refreshConsultationList()
   {      
    
-      const sources = [this.ressourceService.getAll("ressources"),this.typeRessourceService.getAllR()];   
+      const sources = [this.ressourceService.getAll("ressources"),
+      this.typeRessourceService.getAllR()];   
       forkJoin(sources).subscribe(f=>
       {
         this.typeRessources= (f[1]['code']==200) ? f[1]['data'] as type_ressource[] : []
@@ -49,6 +51,7 @@ export class ListComponent {
         
           this.ressources=(consultationsApiResponse.length != 0) ? consultationsApiResponse.map((k : ressource) =>
             {
+            
              k.createdOn=k.createdOn*1000
              const type_res=this.typeRessources.filter(t=>t.id == k.category)
              const typeressource= (!!type_res && type_res.length !=0) ? type_res[0].type : null;  
@@ -58,6 +61,8 @@ export class ListComponent {
              consultationGot.category=(!!typeressource && typeressource !=null)? typeressource+" ("+k.marque+")" : "-"
              return consultationGot;
             })  : []; 
+
+
             this.ressourceTypes=this.ressources
             this.ressourceDatas=this.ressources
 
@@ -89,6 +94,16 @@ export class ListComponent {
     
 }
 
+hiddenButton(id:any)
+{
+  return this.ds.getEvents(id).pipe(map(h=>
+    {
+      const plannings=h.data as planning[]
+      
+      return (!!plannings && plannings.length !=0) ? true:false;
+    }))
+
+}
 deleteModal(event:any)
 {
 this.deleteID=event
