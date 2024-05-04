@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
- // url: 'http://localhost:6060/',
+  //url: 'http://localhost:6060/',
   url:'http://158.69.120.240:6060/',
   ROLE_UTILISATEUR:"UTILISATEUR",
   ROLE_ADMINISTATEUR:"ADMINISTRATEUR",

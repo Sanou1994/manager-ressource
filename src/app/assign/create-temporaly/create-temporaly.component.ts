@@ -64,6 +64,8 @@ export class CreateTemporalyComponent {
         {
           const countChoose= this.addRessource.value.count 
           const ressource= this.ressources.filter(q=> q.id == id)[0];
+          console.log(ressource)
+
           const countByGroups=(!!ressource.countByGroups)?ressource.countByGroups : 0
           if(countChoose > ressource.currentCount)
           {
@@ -80,9 +82,13 @@ export class CreateTemporalyComponent {
           else{
 
              const paidable=(!!ressource && ressource.unpaid) ? true :false
-             
-            this.mount=(paidable && countByGroups !=0) ?  (countChoose/countByGroups)*ressource.mount :0
+             console.log(paidable)
+             console.log(countByGroups)
+             console.log(ressource.mount)
 
+            this.mount=(!paidable && countByGroups !=0) ?  (countChoose/countByGroups)*ressource.mount :0
+
+            console.log(this.mount)
             this.disableButton=false
             this.countByGroupsCheck=false
             this.counted=false

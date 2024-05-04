@@ -109,7 +109,6 @@ export class CreateComponent implements OnInit,OnChanges
         this.readByGroups=true
         this.readUnpaid=true
 
-       
       } ;break;
       default:{
         
@@ -133,9 +132,13 @@ export class CreateComponent implements OnInit,OnChanges
     this.readUnpaid=(!!this.unpaidInput && this.unpaidInput.nativeElement.checked) ? false :true
         this.mount=(!!this.unpaidInput && this.unpaidInput.nativeElement.checked)? 0 :this.mount
 
-   this.readByGroups=(!!this.paidByGroupsInput && this.paidByGroupsInput.nativeElement.checked && 
-        (!!this.temporalyInput && this.temporalyInput.nativeElement.checked || !!this.unprogrammableanduntemporalyInput && this.unprogrammableanduntemporalyInput.nativeElement.checked )) ? true :false
-    
+   //this.readByGroups=(!!this.paidByGroupsInput && this.paidByGroupsInput.nativeElement.checked && 
+   //     (!!this.temporalyInput && this.temporalyInput.nativeElement.checked ||  )) ? true :false
+   
+   this.readByGroups=((!!this.temporalyInput && this.temporalyInput.nativeElement.checked) || (!!this.unprogrammableanduntemporalyInput && this.unprogrammableanduntemporalyInput.nativeElement.checked && !!this.paidByGroupsInput && this.paidByGroupsInput.nativeElement.checked) ) ? true :false
+   
+
+
   this.countByGroups=(this.readByGroups) ? this.countByGroups : 0
 
   } 

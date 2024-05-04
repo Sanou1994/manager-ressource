@@ -23,6 +23,9 @@ export const  routes: Routes = [
             path: 'list', loadComponent: () => import('./list/list.component').then(m => m.ListComponent) 
         },
         { 
+          path: 'users', loadComponent: () => import('./user-list/user-list.component').then(m => m.UserListComponent) 
+        },
+        { 
             path: 'show', loadComponent: () => import('./show/show.component').then(m => m.ShowComponent) 
         }
       ],

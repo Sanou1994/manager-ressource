@@ -32,4 +32,9 @@ export class RessourceService extends CrudGenericService<ressource>
       var url_searchC="ressources/delete"
       return this.http.get<Reponse>(`${this._url}${url_searchC}/${ID}`);
     }
+
+    reservationByUser(ID: any): Observable<Reponse> {
+      var url_searchC="ressources/reservations"
+      return this.http.get<Reponse>(`${this._url}${url_searchC}/${ID}`);
+    }
 }
